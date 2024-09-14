@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src", 
+    "paths": {
+      "@routes/*": ["modules/inventary/routes/*"],
+      "@controller/*": ["../controller/productos/*"],
+      "@utils/*": ["common/utils/*"]
+    },
+    "target": "es2016",
+    "module": "commonjs",
+    "lib": ["es2016", "dom", "esnext.asynciterable"],
+    "typeRoots": ["./node_modules/@types", "./interfaces"],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  },
+  "include": ["./**/*"], 
+  "exclude": ["node_modules", "dist"]  
+}
