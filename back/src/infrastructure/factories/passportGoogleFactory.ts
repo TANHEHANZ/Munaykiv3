@@ -1,41 +1,67 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
+import { CALLBACKURL, GOOGLE_SCOPE } from "../../common/constants/constants";
+import { GoogleProfileDTO } from "./auth.dto";
 
 dotenv.config();
+const prisma = new PrismaClient();
+const clientID = process.env.GOOGLE_CLIENT_ID;
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
-export const emails: string[] = [];
+function emailProfile(profile: any): string | null {
+  return profile?.emails?.[0]?.value ?? null;
+}
 
-export function createGoogleStrategy() {
-  const clientID = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-
+export function GoogleFactory() {
   if (!clientID || !clientSecret) {
-    throw new Error("Google Client ID and Secret must be defined");
+    throw new Error("No se tiene el Client ID o Secret");
   }
-
   passport.use(
     new GoogleStrategy(
       {
         clientID: clientID,
         clientSecret: clientSecret,
-        callbackURL: "http://localhost:3000/auth/google/callback",
-        scope: ["profile", "email"],
+        callbackURL: CALLBACKURL,
+        scope: GOOGLE_SCOPE,
       },
-      (
-        accessToken: string,
-        refreshToken: string,
-        profile: any,
-        done: (err: any, user?: any) => void
-      ) => {
-        const email = profile.emails ? profile.emails[0].value : null;
-        if (email) {
-          if (!emails.includes(email)) {
-            emails.push(email);
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const email = emailProfile(profile);
+
+          if (!email) {
+            return done(new Error("No hay email"), undefined);
           }
-          done(null, profile);
-        } else {
-          done(new Error("No email found on profile"), null);
+
+          const googleProfile: GoogleProfileDTO = {
+            email: email,
+            name: profile.displayName || "Nombre desconocido",
+            providerId: profile.id,
+            providerType: "google",
+          };
+
+          const existingUser = await prisma.user.findUnique({
+            where: { email: googleProfile.email },
+          });
+          if (existingUser) {
+            //@ts-ignore
+            return done(null, existingUser);
+          }
+
+          const newUser = await prisma.user.create({
+            data: {
+              email: googleProfile.email,
+              name: googleProfile.name,
+              providerId: googleProfile.providerId,
+              providerType: googleProfile.providerType,
+            },
+          });
+          //@ts-ignore
+          done(null, newUser);
+        } catch (error) {
+          console.error("Error al autenticar el usuario:", error);
+          done(error);
         }
       }
     )

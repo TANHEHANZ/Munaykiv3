@@ -1,9 +1,6 @@
 import passport from "passport";
-import {
-  createGoogleStrategy,
-  emails,
-} from "../../../infrastructure/factories/passportGoogleFactory";
+import { GoogleFactory } from "../../../infrastructure/factories/passportGoogleFactory";
 
-createGoogleStrategy();
+GoogleFactory();
 
-export { passport, emails };
+export { passport };
