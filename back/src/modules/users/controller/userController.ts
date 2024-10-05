@@ -26,4 +26,51 @@ class UserController {
   }
 }
 
-export default UserController;
+// export default UserController;
+// import { Request, Response } from "express";
+// import ApiResponse from "../helpers/ApiResponse";
+// import { PrismaClient } from "@prisma/client";
+
+// const prisma = new PrismaClient();
+
+// export const UserController = {
+//   // Método para obtener un usuario por ID
+//   async getUser(req: Request, res: Response) {
+//     const userId = parseInt(req.params.id);
+
+//     try {
+//       const user = await prisma.user.findUnique({
+//         where: { id: userId },
+//       });
+
+//       if (!user) {
+//         return ApiResponse.notFound(res, "Usuario no encontrado.");
+//       }
+
+//       return ApiResponse.success(res, "Usuario encontrado.", user);
+//     } catch (error) {
+//       return ApiResponse.serverError(res, "Error del servidor.", error);
+//     }
+//   },
+
+//   // Método para crear un nuevo usuario
+//   async createUser(req: Request, res: Response) {
+//     const { email, name } = req.body;
+
+//     try {
+//       const existingUser = await prisma.user.findUnique({ where: { email } });
+
+//       if (existingUser) {
+//         return ApiResponse.badRequest(res, "El usuario ya existe.", { email });
+//       }
+
+//       const newUser = await prisma.user.create({
+//         data: { email, name },
+//       });
+
+//       return ApiResponse.success(res, "Usuario creado con éxito.", newUser);
+//     } catch (error) {
+//       return ApiResponse.serverError(res, "Error creando usuario.", error);
+//     }
+//   },
+// };

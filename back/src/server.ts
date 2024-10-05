@@ -1,13 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
-
-import "./modules/users/middleware/google";
 import { loginRouter } from "./modules/users/routes/login.routes";
+import passport from "passport";
 
 dotenv.config();
-
 const PORT = process.env.PORT || 3000;
 const app = express();
+app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
