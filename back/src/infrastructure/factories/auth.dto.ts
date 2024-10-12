@@ -1,12 +1,9 @@
-export interface GoogleProfileDTO {
-  email: string;
-  name: string;
-  providerId: string;
-  providerType: string;
-}
-export interface FacebookProfileDTO {
-  email: string;
-  name: string;
-  providerId: string;
-  providerType: string;
-}
+  export interface UserDTO {
+    email: string;
+    name: string;
+    providerId: string;
+    providerType: string;
+    emails?: string[];
+    state?: string;
+    role?: string;
+  }

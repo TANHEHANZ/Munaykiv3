@@ -1,40 +1,16 @@
-import { PrismaClient } from "@prisma/client";
-import { GoogleProfileDTO } from "./auth.dto";
+import { UserDTO } from "./auth.dto";
 
-const prisma = new PrismaClient();
+export function verification(profile: any): UserDTO {
+  const email = profile?.emails?.[0]?.value || profile?.email || null;
+  const name = profile?.displayName || profile?.name || "Nombre desconocido";
+  const providerId = profile?.id;
 
-export function emailProfile(profile: any): string | null {
-  return profile?.emails?.[0]?.value ?? null;
-}
+  const userDTO = {
+    email: email!,
+    name: name,
+    providerId: providerId,
+    providerType: profile.providerType,
+  };
 
-export async function createUserGoogle(
-  googleProfile: GoogleProfileDTO,
-  done: Function
-) {
-  try {
-    const existingUser = await prisma.user.findUnique({
-      where: { email: googleProfile.email },
-    });
-
-    if (existingUser) {
-      console.log("existe El user", existingUser);
-
-      return done(null, existingUser);
-    }
-
-    const newUser = await prisma.user.create({
-      data: {
-        email: googleProfile.email,
-        name: googleProfile.name,
-        providerId: googleProfile.providerId,
-        providerType: googleProfile.providerType,
-      },
-    });
-    console.log("nuevo user", newUser);
-
-    return done(null, newUser);
-  } catch (error) {
-    console.error("Error al autenticar o crear usuario:", error);
-    return done(error);
-  }
+  return userDTO;
 }

@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import UserService from "../service/userService";
+import { UserDTO } from "../../../infrastructure/factories/auth.dto";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 class UserController {
   private usercontroller: UserService;
@@ -13,64 +16,23 @@ class UserController {
     res.json(items);
   }
 
-  async addItem(req: Request, res: Response) {
-    //  const = data {
-    //       email: googleProfile.email,
-    //       name: googleProfile.name,
-    //       providerId: googleProfile.providerId,
-    //       providerType: googleProfile.providerType,
-    //     },
-    // const item = await this.usercontroller.addItem(
-    // );
-    // res.status(201).json(item);
+  async createUser(Profile: UserDTO, done: Function) {
+    try {
+      const existingUser = await prisma.user.findUnique({
+        where: { email: Profile.email },
+      });
+
+      if (existingUser) {
+        console.log("userExiste", existingUser);
+        return done(null, existingUser);
+      }
+      const newUser = await this.usercontroller.addItem(Profile);
+      return done(null, newUser);
+    } catch (error) {
+      console.error("Error al autenticar o crear usuario:", error);
+      return done(error);
+    }
   }
 }
 
-// export default UserController;
-// import { Request, Response } from "express";
-// import ApiResponse from "../helpers/ApiResponse";
-// import { PrismaClient } from "@prisma/client";
-
-// const prisma = new PrismaClient();
-
-// export const UserController = {
-//   // Método para obtener un usuario por ID
-//   async getUser(req: Request, res: Response) {
-//     const userId = parseInt(req.params.id);
-
-//     try {
-//       const user = await prisma.user.findUnique({
-//         where: { id: userId },
-//       });
-
-//       if (!user) {
-//         return ApiResponse.notFound(res, "Usuario no encontrado.");
-//       }
-
-//       return ApiResponse.success(res, "Usuario encontrado.", user);
-//     } catch (error) {
-//       return ApiResponse.serverError(res, "Error del servidor.", error);
-//     }
-//   },
-
-//   // Método para crear un nuevo usuario
-//   async createUser(req: Request, res: Response) {
-//     const { email, name } = req.body;
-
-//     try {
-//       const existingUser = await prisma.user.findUnique({ where: { email } });
-
-//       if (existingUser) {
-//         return ApiResponse.badRequest(res, "El usuario ya existe.", { email });
-//       }
-
-//       const newUser = await prisma.user.create({
-//         data: { email, name },
-//       });
-
-//       return ApiResponse.success(res, "Usuario creado con éxito.", newUser);
-//     } catch (error) {
-//       return ApiResponse.serverError(res, "Error creando usuario.", error);
-//     }
-//   },
-// };
+export default UserController;

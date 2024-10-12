@@ -11,6 +11,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", loginRouter);
+app.use("/dashboard", (req, res) => {
+  res.send(`
+    Dash
+  `);
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

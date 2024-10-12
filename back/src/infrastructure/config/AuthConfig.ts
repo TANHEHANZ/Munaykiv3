@@ -10,8 +10,7 @@ function AuthConfig() {
         break;
       }
       case "facebook": {
-        const facebookFactory = new FacebookFactory();
-        facebookFactory.initialize();
+        FacebookFactory();
         break;
       }
       default: {

@@ -1,8 +1,10 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { googleConfig } from "./configure";
-import { createUserGoogle, emailProfile } from "./auth.helpers";
-import { GoogleProfileDTO } from "./auth.dto";
+import { verification } from "./auth.helpers";
+import { UserDTO } from "./auth.dto";
+import UserController from "../../modules/users/controller/userController";
+import UserService from "../../modules/users/service/userService";
 
 export function GoogleFactory() {
   const { clientID, clientSecret, callbackURL, scope } = googleConfig;
@@ -10,6 +12,9 @@ export function GoogleFactory() {
   if (!clientID || !clientSecret) {
     throw new Error("No se tiene el Client ID o Secret");
   }
+  const userService = new UserService();
+  const userController = new UserController(userService);
+
   passport.use(
     new GoogleStrategy(
       {
@@ -20,20 +25,9 @@ export function GoogleFactory() {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const email = emailProfile(profile);
+          const userDTO = verification(profile);
 
-          if (!email) {
-            return done(new Error("No hay email"), undefined);
-          }
-
-          const googleProfile: GoogleProfileDTO = {
-            email: email,
-            name: profile.displayName || "Nombre desconocido",
-            providerId: profile.id,
-            providerType: "google",
-          };
-
-          await createUserGoogle(googleProfile, done);
+          await userController.createUser(userDTO, done);
         } catch (error) {
           console.error("Error al autenticar el usuario:", error);
           done(error);

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { UserDTO } from "../../../infrastructure/factories/auth.dto";
 
 class UserService {
   private prisma: PrismaClient;
@@ -11,9 +12,15 @@ class UserService {
     return this.prisma.user.findMany();
   }
 
-  async addItem(data: any) {
+  async addItem(Profile: UserDTO) {
     return this.prisma.user.create({
-      data,
+      data: {
+        email: Profile.email,
+        emails: Profile.emails,
+        name: Profile.name,
+        providerId: Profile.providerId,
+        providerType: String(Profile.providerType),
+      },
     });
   }
   async updateItem(id: string, data: any) {
