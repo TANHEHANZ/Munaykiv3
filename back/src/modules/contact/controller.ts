@@ -1,45 +1,50 @@
-import { Request, Response } from "express";
+    import { Request, Response } from "express";
+    import ServiceContat from "./service";
+    import ApiResponse from "../../infrastructure/config/response";
 
-import ServiceContat from "./service";
+    class ContactController {
+    private contactService: ServiceContat;
 
-class ContactController {
-  private contactService: ServiceContat;
-
-  constructor(Service: ServiceContat) {
-    this.contactService = Service;
-  }
-
-  async getItems(req: Request, res: Response) {
-    const items = await this.contactService.getItems();
-    if (!items) {
-      throw new Error("Items not found");
+    constructor(Service: ServiceContat) {
+        this.contactService = Service;
     }
-    res.json(items);
-  }
 
-  async addItem(req: Request, res: Response) {
-    const item = await this.contactService.addItem(req.body);
-    res.status(201).json(item);
-  }
-
-  async updateItem(req: Request, res: Response) {
-    const updatedItem = await this.contactService.updateItem(
-      req.params.id,
-      req.body
-    );
-    if (!updatedItem) {
-      throw new Error(`Item with id ${req.params.id} not found`);
+    async getItems(req: Request, res: Response) {
+        const items = await this.contactService.getItems();
+        if (!items) {
+        throw new Error("Items not found");
+        }
+        return ApiResponse.success(res, "contactos obtenidos", items);
     }
-    res.json(updatedItem);
-  }
 
-  async deleteItem(req: Request, res: Response) {
-    const deleted = await this.contactService.deleteItem(req.params.id);
-    if (!deleted) {
-      throw new Error("No se pudo eliminar ");
+    async addItem(req: Request, res: Response) {
+        const item = await this.contactService.addItem(req.body);
+        if (!item) {
+        throw new Error("Items not found");
+        }
+        return ApiResponse.success(res, "contactos obtenidos", item);
     }
-    res.status(204).send();
-  }
-}
 
-export default ContactController;
+    async updateItem(req: Request, res: Response) {
+        try {
+        const updatedItem = await this.contactService.updateItem(
+            req.params.id,
+            req.body
+        );
+        return ApiResponse.success(res, "contactos obtenidos", updatedItem);
+        } catch (error) {
+        return ApiResponse.badRequest(res, "Error al traer los datos ", error);
+        }
+    }
+
+    async deleteItem(req: Request, res: Response) {
+        try {
+        const deleted = await this.contactService.deleteItem(req.params.id);
+        return ApiResponse.success(res, "contactos eliminados", deleted);
+        } catch (error) {
+        return ApiResponse.badRequest(res, "Error al traer los datos ", error);
+        }
+    }
+    }
+
+    export default ContactController;
