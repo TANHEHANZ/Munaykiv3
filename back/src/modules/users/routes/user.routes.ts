@@ -1,21 +1,17 @@
 import { Router } from "express";
+import { ROUTES } from "../../../common/constants/routes.enum";
+import UserService from "../service/userService";
 
-// import InventoryService from "../service/productosService";
-// import InventoryController from "../controller/productos/productos.controller";
-// import TipoProductoService from "../service/tipoProductosService";
-// import TipoProductoController from "../controller/productos/tipo.productos.controller";
-// import { ROUTES } from "../../../common/utils/routes.enum";
 
-// const router = Router();
+
+const router = Router();
 // const inventoryService = new InventoryService();
 // const tipoProductoService = new TipoProductoService();
-// const inventoryController = new InventoryController(inventoryService);
+const inicialiceController = new UserService();
 // const tipoProductoController = new TipoProductoController(tipoProductoService);
 
-// // -----------------------add product
-// router.get(ROUTES.INITIAL, (req, res) =>
-//   inventoryController.getItems(req, res)
-// );
+// // ----------------------- user Routes --------------------
+router.get(ROUTES.USER, (req, res) => inicialiceController.getItems());
 // router.post(ROUTES.INITIAL, (req, res) =>
 //   inventoryController.addItem(req, res)
 // );
@@ -38,4 +34,4 @@ import { Router } from "express";
 //   tipoProductoController.deleteItem(req, res)
 // );
 
-// export default router;
+export default router;
