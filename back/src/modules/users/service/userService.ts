@@ -19,7 +19,7 @@ class UserService {
         emails: Profile.emails,
         name: Profile.name,
         providerId: Profile.providerId,
-        providerType: String(Profile.providerType),
+        providerType: Profile.providerType,
       },
     });
   }
@@ -33,6 +33,11 @@ class UserService {
   async deleteItem(id: string) {
     return this.prisma.user.delete({
       where: { id },
+    });
+  }
+  async searchItemUnique(condicion: any) {
+    return this.prisma.user.findUnique({
+      where: condicion,
     });
   }
 }
