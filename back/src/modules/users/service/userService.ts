@@ -16,8 +16,8 @@ class UserService {
     return this.prisma.user.create({
       data: {
         email: Profile.email,
-        emails: Profile.emails,
         name: Profile.name,
+        photo: Profile.photo,
         providerId: Profile.providerId,
         providerType: Profile.providerType,
       },

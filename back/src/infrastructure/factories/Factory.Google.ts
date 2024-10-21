@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { googleConfig } from "./configure";
+import { googleConfig } from "../config/authConstants";
 import { verification } from "./auth.helpers";
 import { UserDTO } from "./auth.dto";
 import UserController from "../../modules/users/controller/userController";
@@ -25,9 +25,9 @@ export function GoogleFactory() {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const userDTO = verification(profile);
+          const user = verification(profile);
 
-          await userController.createUser(userDTO, done);
+          await userController.createUser(user, done);
         } catch (error) {
           console.error("Error al autenticar el usuario:", error);
           done(error);

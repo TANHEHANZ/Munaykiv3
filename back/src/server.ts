@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { loginRouter } from "./modules/users/routes/login.routes";
+import { loginRouter } from "./modules/login/login.routes";
 import passport from "passport";
 
 dotenv.config();

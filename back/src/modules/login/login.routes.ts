@@ -1,15 +1,11 @@
 import { Router } from "express";
-import {
-  FACEBOOK_SCOPE,
-  GOOGLE_SCOPE,
-} from "../../../common/constants/constants";
-import {
-  passport,
-  authConfig,
-} from "../../../infrastructure/config/AuthConfig";
-import ApiResponse from "../../../infrastructure/config/response";
+import { FACEBOOK_SCOPE, GOOGLE_SCOPE } from "../../common/constants/constants";
+import { passport, authConfig } from "../../infrastructure/config/AuthConfig";
+import ApiResponse from "../../infrastructure/config/response";
+import AuthController from "./AuthController";
 
 const loginRouter = Router();
+const authController = new AuthController();
 
 loginRouter.get("/:type", (req, res, next) => {
   const { type } = req.params;
@@ -43,12 +39,13 @@ loginRouter.get(
     session: false,
   }),
   (req, res) => {
-    if (req.user) {
-      return ApiResponse.success(
-        res,
-        "Autenticación exitosa con Google",
-        req.user
-      );
+    const User = req.user;
+    if (User) {
+      const token = authController.tokenAuth(User);
+      authController.verifyToken(token);
+      return ApiResponse.success(res, "Autenticación exitosa con Google", {
+        token: token,
+      });
     } else {
       return ApiResponse.badRequest(res, "Error en la autenticación");
     }
@@ -63,12 +60,13 @@ loginRouter.get(
     session: false,
   }),
   (req, res) => {
-    if (req.user) {
-      return ApiResponse.success(
-        res,
-        "Autenticación exitosa con Facebook",
-        req.user
-      );
+    const User = req.user;
+    if (User) {
+      const token = authController.tokenAuth(User);
+      authController.verifyToken(token);
+      return ApiResponse.success(res, "Autenticación exitosa con Facebook", {
+        token: token,
+      });
     } else {
       return ApiResponse.badRequest(res, "Error en la autenticación");
     }

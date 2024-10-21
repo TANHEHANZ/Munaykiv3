@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "../service/userService";
 import { UserDTO } from "../../../infrastructure/factories/auth.dto";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
 class UserController {
   private newUserService: UserService;
@@ -23,7 +21,6 @@ class UserController {
       });
 
       if (existingUser) {
-        console.log("userExiste", existingUser);
         return done(null, existingUser);
       }
       const newUser = await this.newUserService.addItem(Profile);
