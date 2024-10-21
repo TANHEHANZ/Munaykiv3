@@ -1,45 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
+import { loginRouter } from "./modules/login/login.routes";
 import passport from "passport";
-import { loginRouter } from "./modules/users/routes/login.routes";
-import { emails } from "./middleware/google";
-import "./middleware/google";
 
 dotenv.config();
-
-const PORT = process.env.PORT;
-
+const PORT = process.env.PORT || 3000;
 const app = express();
-
+app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(passport.initialize());
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { session: false }),
-  (req, res) => {
-    res.redirect("/success");
-  }
-);
-
-app.get("/success", (req, res) => {
+app.use("/auth", loginRouter);
+app.use("/dashboard", (req, res) => {
   res.send(`
-    <h1>Usuarios autenticados:</h1>
-    <ul>
-      ${emails.map((email: string) => `<li>${email}</li>`).join("")}
-    </ul>
+    Dash
   `);
 });
-
-// Ruta de prueba
-app.use("/auth", loginRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
