@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Munayki",
+    "slug": "Munayki",
+    "version": "1.0.0",
+    "scheme": ["munayki"],
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pruebasmunayki.Munayki"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.pruebasmunayki.Munayki"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-router"],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "77d9901a-dd59-4868-b85d-959c830a5d26"
+      }
+    }
+  }
+}
