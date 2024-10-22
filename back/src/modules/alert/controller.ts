@@ -11,7 +11,7 @@ class AlertController {
   async getItems(req: Request, res: Response) {
     try {
       const items = await this.alert.getItems();
-      return ApiResponse.success(res, "contactos obtenidos", items);
+      return ApiResponse.success(res, "Alerta obtenidos", items);
     } catch (error) {
       return ApiResponse.badRequest(res, "Error de servidor", error);
     }
@@ -20,7 +20,7 @@ class AlertController {
   async addItem(req: Request, res: Response) {
     try {
       const item = await this.alert.addItem(req.body);
-      return ApiResponse.success(res, "contactos obtenidos", item);
+      return ApiResponse.success(res, "Alerta obtenidos", item);
     } catch (error) {
       return ApiResponse.badRequest(res, "Error en el servidor", error);
     }
@@ -29,7 +29,7 @@ class AlertController {
   async updateItem(req: Request, res: Response) {
     try {
       const updatedItem = await this.alert.updateItem(req.params.id, req.body);
-      return ApiResponse.success(res, "contactos obtenidos", updatedItem);
+      return ApiResponse.success(res, "Alerta obtenidos", updatedItem);
     } catch (error) {
       return ApiResponse.badRequest(res, "Error al traer los datos ", error);
     }
@@ -38,7 +38,7 @@ class AlertController {
   async deleteItem(req: Request, res: Response) {
     try {
       const deleted = await this.alert.deleteItem(req.params.id);
-      return ApiResponse.success(res, "contactos eliminados", deleted);
+      return ApiResponse.success(res, "Alerta eliminados", deleted);
     } catch (error) {
       return ApiResponse.badRequest(res, "Error al traer los datos ", error);
     }
