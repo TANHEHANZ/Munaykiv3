@@ -6,4 +6,6 @@ export enum ROUTES {
   USER = PREFICURL + "/user",
   CONTACT = PREFICURL + "/contact",
   ALERT = PREFICURL + "/alert",
+
+  NOTIFICATION = PREFICURL + "/notification",
 }

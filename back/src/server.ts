@@ -6,6 +6,7 @@ import { ROUTES } from "./common/constants/routes.enum";
 import contactRouter from "./modules/contact/routes";
 import alertRouter from "./modules/alert/routes";
 import { authenticateToken } from "./infrastructure/middleware/authenticateToken.middleware";
+import notificationRouter from "modules/notification/notification.routes";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,7 @@ app.use("/dashboard", (req, res) => {
 });
 app.use(ROUTES.CONTACT, contactRouter);
 app.use(ROUTES.ALERT, authenticateToken, alertRouter);
+app.use(ROUTES.NOTIFICATION, authenticateToken, notificationRouter);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
