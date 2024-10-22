@@ -31,7 +31,6 @@ class AuthController {
     try {
       const decoded = jwt.verify(token, secretKey) as { data: string; iv: string };
       const decryptedData = decryptData(decoded.iv, decoded.data);
-      console.log("Datos desencriptados:", decryptedData);
       return decryptedData;
     } catch (error) {
       throw new Error("Token inválido o expirado.");
