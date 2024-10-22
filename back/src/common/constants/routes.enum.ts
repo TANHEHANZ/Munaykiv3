@@ -4,4 +4,6 @@ export enum ROUTES {
   PREFICURL = "/api",
   UPLOAD = "/uploads",
   USER = PREFICURL + "/user",
+  CONTACT = PREFICURL + "/contact",
+  ALERT = PREFICURL + "/alert",
 }

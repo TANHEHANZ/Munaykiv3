@@ -1,22 +1,15 @@
-// import { Router } from "express";
-// import CategoriaController from "../controller/productos/categorias.controller";
-// import CategoriService from "../service/categoriaService";
-// import verifyToken from "../../../middleware/token";
-// import { ROUTES } from "../../../common/utils/routes.enum";
+import { Router } from "express";
+import ServiceContat from "./service";
+import ContactController from "./controller";
+import { ROUTES } from "../../common/constants/routes.enum";
 
-// const router = Router();
-// const categoriaService = new CategoriService();
-// const categoriaController = new CategoriaController(categoriaService);
+const contactRouter = Router();
+const serviceContat = new ServiceContat();
+const contact = new ContactController(serviceContat);
 
-// router.get(ROUTES.INITIAL, verifyToken, (req, res) =>
-//   categoriaController.getItems(req, res)
-// );
-// router.post(ROUTES.INITIAL, (req, res) =>
-//   categoriaController.addItem(req, res)
-// );
-// router.put(ROUTES.BYID, (req, res) => categoriaController.updateItem(req, res));
-// router.delete(ROUTES.BYID, (req, res) =>
-//   categoriaController.deleteItem(req, res)
-// );
+contactRouter.get(ROUTES.INITIAL, (req, res) => contact.getItems(req, res));
+contactRouter.post(ROUTES.INITIAL, (req, res) => contact.addItem(req, res));
+contactRouter.put(ROUTES.BYID, (req, res) => contact.updateItem(req, res));
+contactRouter.delete(ROUTES.BYID, (req, res) => contact.deleteItem(req, res));
 
-// export default router;
+export default contactRouter;
