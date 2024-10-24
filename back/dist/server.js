@@ -30,6 +30,4 @@ app.get("/app", (req, res) => {
 });
 app.use(routes_enum_1.ROUTES.CONTACT, routes_1.default);
 app.use(routes_enum_1.ROUTES.ALERT, authenticateToken_middleware_1.authenticateToken, routes_2.default);
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+exports.default = app;

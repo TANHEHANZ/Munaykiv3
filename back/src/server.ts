@@ -29,7 +29,4 @@ app.get("/app", (req, res) => {
 
 app.use(ROUTES.CONTACT, contactRouter);
 app.use(ROUTES.ALERT, authenticateToken, alertRouter);
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-  
+export default app;
