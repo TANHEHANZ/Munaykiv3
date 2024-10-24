@@ -1,7 +1,29 @@
-import React from "react";
+// App.tsx
+import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
+import * as SQLite from "expo-sqlite/legacy";
+import { openDatabase } from "../infraestructure/config/initBD";
 
-import Login from "./public/login";
+export default function App() {
+  const [db, setDb] = useState<SQLite.WebSQLDatabase | null>(null);
 
-export default function Inicialice() {
-  return <Login />;
+  useEffect(() => {
+    const initDb = async () => {
+      try {
+        const database = await openDatabase();
+        setDb(database);
+        console.log("Database opened successfully");
+      } catch (error) {
+        console.error("Error opening database:", error);
+      }
+    };
+
+    initDb();
+  }, []);
+
+  return (
+    <View>
+      <Text>App is running, database is initialized!</Text>
+    </View>
+  );
 }

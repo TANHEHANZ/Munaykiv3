@@ -3,7 +3,9 @@
     "name": "Munayki",
     "slug": "Munayki",
     "version": "1.0.0",
-    "scheme": ["munayki"],
+    "scheme": [
+      "munayki"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -27,7 +29,9 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      ["expo-router"],
+      [
+        "expo-router"
+      ],
       [
         "expo-font",
         {
@@ -46,7 +50,8 @@
             "./assets/fonts/Montserrat-Medium.ttf"
           ]
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "extra": {
       "router": {
