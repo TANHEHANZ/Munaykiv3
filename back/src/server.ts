@@ -27,6 +27,8 @@ app.get("/app", (req, res) => {
   return res.redirect(param + "?iduser=1");
 });
 
-app.use(ROUTES.CONTACT, contactRouter);
-app.use(ROUTES.ALERT, authenticateToken, alertRouter);
-export default app;
+app.use("/api", contactRouter);
+app.use("/api", alertRouter);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
