@@ -21,6 +21,12 @@ app.use("/dashboard", (req, res) => {
     Dash
   `);
 });
+app.get("/app", (req, res) => {
+  const param = req.query.url as string;
+  console.log("entro aca ", param);
+  return res.redirect(param + "?iduser=1");
+});
+
 app.use(ROUTES.CONTACT, contactRouter);
 app.use(ROUTES.ALERT, authenticateToken, alertRouter);
 app.listen(PORT, () => {

@@ -9,13 +9,14 @@ const authController = new AuthController();
 
 loginRouter.get("/:type", (req, res, next) => {
   const { type } = req.params;
+  const appurl = req.query.appurl as string | undefined;
+  console.log(appurl);
   if (type === "google") {
     authConfig.login(type);
-    return passport.authenticate("google", { scope: GOOGLE_SCOPE })(
-      req,
-      res,
-      next
-    );
+    return passport.authenticate("google", {
+      scope: GOOGLE_SCOPE,
+      state: appurl,
+    })(req, res, next);
   } else if (type === "facebook") {
     authConfig.login(type);
     return passport.authenticate("facebook", { scope: FACEBOOK_SCOPE })(
@@ -31,6 +32,46 @@ loginRouter.get("/:type", (req, res, next) => {
   }
 });
 
+// loginRouter.get(
+//   "/google/callback",
+//   passport.authenticate("google", {
+//     failureRedirect: "/login",
+//     failureMessage: true,
+//     session: false,
+//   }),
+//   (req, res) => {
+//     const User = req.user;
+//     if (User) {
+//       const token = authController.tokenAuth(User);
+//       authController.verifyToken(token);
+//       // Redirect to the dashboard after successful authentication
+//       return res.redirect(`/dashboard?token=${token}`);
+//     } else {
+//       return ApiResponse.badRequest(res, "Error en la autenticación");
+//     }
+//   }
+// );
+
+// loginRouter.get(
+//   "/facebook/callback",
+//   passport.authenticate("facebook", {
+//     failureRedirect: "/login",
+//     failureMessage: true,
+//     session: false,
+//   }),
+//   (req, res) => {
+//     const User = req.user;
+//     if (User) {
+//       const token = authController.tokenAuth(User);
+//       authController.verifyToken(token);
+//       // Redirect to the dashboard after successful authentication
+//       return res.redirect(`/dashboard?token=${token}`);
+//     } else {
+//       return ApiResponse.badRequest(res, "Error en la autenticación");
+//     }
+//   }
+// );
+
 loginRouter.get(
   "/google/callback",
   passport.authenticate("google", {
@@ -40,11 +81,13 @@ loginRouter.get(
   }),
   (req, res) => {
     const User = req.user;
+    const { state } = req.query;
+    console.log(state);
+
     if (User) {
       const token = authController.tokenAuth(User);
       authController.verifyToken(token);
-      // Redirect to the dashboard after successful authentication
-      return res.redirect(`/dashboard?token=${token}`);
+      return res.redirect(state + "?token=" + token);
     } else {
       return ApiResponse.badRequest(res, "Error en la autenticación");
     }
@@ -63,16 +106,10 @@ loginRouter.get(
     if (User) {
       const token = authController.tokenAuth(User);
       authController.verifyToken(token);
-      // Redirect to the dashboard after successful authentication
-      return res.redirect(`/dashboard?token=${token}`);
     } else {
       return ApiResponse.badRequest(res, "Error en la autenticación");
     }
   }
 );
-
-loginRouter.get("/success", (req, res) => {
-  ApiResponse.success(res, "¡Autenticación exitosa! Bienvenido.");
-});
 
 export { loginRouter };
