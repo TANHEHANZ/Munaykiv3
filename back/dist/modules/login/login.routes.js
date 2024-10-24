@@ -80,7 +80,7 @@ loginRouter.get("/google/callback", AuthConfig_1.passport.authenticate("google",
     if (User) {
         const token = authController.tokenAuth(User);
         authController.verifyToken(token);
-        return res.redirect(state + "?token=" + token);
+        return res.redirect("app/" + state + "?token=" + token);
     }
     else {
         return response_1.default.badRequest(res, "Error en la autenticación");
