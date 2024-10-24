@@ -14,18 +14,20 @@ const ButtonPrimary: React.FC<PropsButton> = ({
   title,
   icon,
   iconType,
-  propclass,
+  propclass = "",
   onPress,
 }) => (
   <Pressable
-    className={`bg-violet-800 py-4 px-4 flex justify-center items-center rounded-full my-4  ${propclass}`}
+    className={`bg-violet-800 py-4 px-4 flex justify-center items-center rounded-full  ${propclass}`}
     onPress={onPress}
   >
     {icon && iconType && (
       <Icon name={icon} type={iconType} size={18} color="white" />
     )}
     {title && (
-      <Text className="text-white font-montserratBold  text-sm">{title}</Text>
+      <Text className="text-white font-montserratBold  text-sm">
+        {title}
+      </Text>
     )}
   </Pressable>
 );

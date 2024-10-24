@@ -87,7 +87,7 @@ loginRouter.get(
     if (User) {
       const token = authController.tokenAuth(User);
       authController.verifyToken(token);
-      return res.redirect(state + "?token=" + token);
+      return res.redirect("app/" + state + "?token=" + token);
     } else {
       return ApiResponse.badRequest(res, "Error en la autenticación");
     }

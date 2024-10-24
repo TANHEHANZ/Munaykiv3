@@ -32,3 +32,4 @@ app.use(ROUTES.ALERT, authenticateToken, alertRouter);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+  
