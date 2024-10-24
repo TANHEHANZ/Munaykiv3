@@ -1,74 +1,83 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Image } from "expo-image";
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from "react-native-reanimated";
-import { LinearGradient } from "expo-linear-gradient";
-interface AppProps {
-  width: number;
-}
+// import React, { useState } from "react";
+// import { Pressable, View } from "react-native";
+// import { informacion } from "../../infraestructure/constants/preview.constanst";
+// import { useAnimations } from "../../components/hooks/useAnimations";
+// import Logo from "../../components/ui/logo";
+// import Animated from "react-native-reanimated";
+// import TextContent from "../../components/ui/textContent";
+// import ActionButtons from "../../components/ui/buttons/action";
+// import ButtonPrimary from "../../components/ui/buttons/primary";
 
-export default function App() {
-  const sv = useSharedValue<number>(1);
+// export default function PreView() {
+//   const [index, setIndex] = useState(0);
+//   const [showButton, setShowButton] = useState(true);
+//   const { fadeInOut, animatedStyle, scaleAnimation } = useAnimations();
 
-  // Animaciones para el círculo
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: sv.value }],
-  }));
+//   const moveWindow = () => {
+//     fadeInOut(() => {
+//       if (index < informacion.length - 1) {
+//         setIndex((prev) => prev + 1);
+//       } else {
+//         setShowButton(false);
+//       }
+//     });
+//   };
 
-  React.useEffect(() => {
-    sv.value = withRepeat(
-      withSequence(
-        withTiming(1, { duration: 800, easing: Easing.exp }),
-        withTiming(0.8, { duration: 500, easing: Easing.ease }),
-        withTiming(1, { duration: 800, easing: Easing.ease }),
-      ),
-      -1,
-      true,
-    );
-  }, []);
+//   const moveBackWindow = () => {
+//     fadeInOut(() => {
+//       if (index > 0) {
+//         setIndex((prev) => prev - 1);
+//       }
+//     });
+//   };
 
-  return (
-    <View className="flex justify-center items-center h-full">
-      <Text className="text-3xl font-montserratExtraBold text-purple-800 ">
-        Munayki
-      </Text>
-      <Animated.View
-        style={animatedStyle}
-        className="w-32 h-32 bg-violet-500 rounded-full  border-8 border-gray-700/5 my-8 "
-      />
-      <View className=" felx flex-col gap-4 justify-center items-center">
-        <Text className="text-sm font-montserratMedium ">
-          Aplicacion contra la violencia
-        </Text>
-      </View>
-      
-    </View>
-  );
-}
+//   const redirect = () => {
+//     console.log("redireccionando");
+//   };
 
-const styles = StyleSheet.create({
-  box: {
-    height: 100,
-    width: 100,
-    backgroundColor: "#b58df1",
-    borderRadius: 20,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-  gradient: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-});
+//   return (
+//     <View className="flex justify-center relative h-full items-center w-[80%] mx-auto">
+//       <Logo />
+//       <Animated.View
+//         style={scaleAnimation}
+//         className="w-24 h-24 rounded-full bg-violet-700 mb-8"
+//       />
+
+//       {showButton && (
+//         <TextContent
+//           animatedStyle={animatedStyle}
+//           title={informacion[index].title}
+//           text={informacion[index].text}
+//         />
+//       )}
+
+//       <View className="flex justify-center flex-col py-4 h-1/2 absolute bottom-0 w-full">
+//         {showButton ? (
+//           <ActionButtons
+//             index={index}
+//             informacion={informacion}
+//             moveWindow={moveWindow}
+//             moveBackWindow={moveBackWindow}
+//           />
+//         ) : (
+//           <View className="flex flex-col w-full h-1/2 justify-center ">
+//             <ButtonPrimary
+//               icon="google"
+//               iconType="AntDesign"
+//               onPress={redirect}
+//               title="Continuar con Google"
+//               propclass="flex-row gap-x-2"
+//             />
+//             <ButtonPrimary
+//               icon="google"
+//               iconType="AntDesign"
+//               onPress={redirect}
+//               title="Continuar con Google"
+//               propclass="flex-row gap-x-2"
+//             />
+//           </View>
+//         )}
+//       </View>
+//     </View>
+//   );
+// }

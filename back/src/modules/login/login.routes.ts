@@ -43,9 +43,8 @@ loginRouter.get(
     if (User) {
       const token = authController.tokenAuth(User);
       authController.verifyToken(token);
-      return ApiResponse.success(res, "Autenticación exitosa con Google", {
-        token: token,
-      });
+      // Redirect to the dashboard after successful authentication
+      return res.redirect(`/dashboard?token=${token}`);
     } else {
       return ApiResponse.badRequest(res, "Error en la autenticación");
     }
@@ -64,9 +63,8 @@ loginRouter.get(
     if (User) {
       const token = authController.tokenAuth(User);
       authController.verifyToken(token);
-      return ApiResponse.success(res, "Autenticación exitosa con Facebook", {
-        token: token,
-      });
+      // Redirect to the dashboard after successful authentication
+      return res.redirect(`/dashboard?token=${token}`);
     } else {
       return ApiResponse.badRequest(res, "Error en la autenticación");
     }
