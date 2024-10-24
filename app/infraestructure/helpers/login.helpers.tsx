@@ -1,50 +1,40 @@
-import { Linking, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import * as Linking from "expo-linking";
+import { useRouter } from "expo-router";
 import ButtonPrimary from "../../components/ui/buttons/primary";
+import { Text, View } from "react-native";
 import BottonSecundary from "../../components/ui/buttons/secudary";
 
 const MetodLogin = () => {
   const [token, setToken] = useState("");
 
+  const redirectToGoogle = () => {
+    const appurl = Linking.createURL("");
+    Linking.openURL("http://192.168.0.7:3000/auth/google/?appurl=" + appurl);
+  };
+  const getUserData = async (result: any) => {
+    const { url } = result;
+    if (url) {
+      const params = Linking.parse(url);
+      const { iduser } = params.queryParams as any;
+      console.log(iduser);
+    }
+  };
   useEffect(() => {
-    const handleDeepLink = (event: any) => {
-      const url = event.url;
-      const tokenParam = url.split("?token=")[1];
-
-      if (tokenParam) {
-        setToken(tokenParam);
-        // Aquí podrías navegar al dashboard
-        // navigation.navigate("Dashboard"); // Si estás usando react-navigation
-      }
+    const clean = Linking.addEventListener("url", getUserData);
+    return () => {
+      clean.remove();
     };
-
-    Linking.addEventListener("url", handleDeepLink);
-
-    Linking.getInitialURL()
-      .then((url) => {
-        if (url) {
-          handleDeepLink({ url });
-        }
-      })
-      .catch((err) => console.error("Error getting initial URL:", err));
   }, []);
 
-  const redirectToGoogle = () => {
-    Linking.openURL("http://192.168.0.7:3000/auth/google");
-  };
-
-  const redirectToFacebook = () => {
-    Linking.openURL("http://192.168.0.7:3000/auth/facebook");
-  };
-
   return (
-    <View className="flex flex-col w-full h-1/2 justify-center">
+    <View className="flex flex-col w-full  h-full justify-center  ">
       <ButtonPrimary
         icon="facebook"
         iconType="FontAwesome"
-        onPress={redirectToFacebook}
+        onPress={redirectToGoogle}
         title="Continuar con Facebook"
-        propclass="flex-row gap-x-2 my-2 bg-blue-900"
+        propclass="flex-row gap-x-2 mb-2 bg-blue-800"
       />
       <BottonSecundary
         icon="google"
@@ -53,11 +43,6 @@ const MetodLogin = () => {
         title="Continuar con Google"
         propclass="flex-row gap-x-2"
       />
-      {token ? (
-        <Text>Token: {token}</Text> // Mostrar el token
-      ) : (
-        <Text>No hay token</Text>
-      )}
     </View>
   );
 };

@@ -12,6 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "platforms": ["android", "ios"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pruebasmunayki.Munayki"
@@ -21,7 +22,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pruebasmunayki.Munayki"
+      "package": "com.pruebasmunayki.Munayki",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "munayki"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

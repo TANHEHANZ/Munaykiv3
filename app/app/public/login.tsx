@@ -61,11 +61,11 @@ const Login = () => {
             moveBackWindow={moveBackWindow}
           />
         ) : (
-          <View>
+          <View className="w-full h-full  justify-center">
             <Text className="font-montserratBold text-3xl text-white ">
               Inicia seción
             </Text>
-            <Text className="font-montserratItalic text-md mb-8 text-white">
+            <Text className="font-montserratItalic text-md mb-4 text-white">
               con:
             </Text>
             <MetodLogin />
