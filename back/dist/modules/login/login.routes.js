@@ -76,11 +76,10 @@ loginRouter.get("/google/callback", AuthConfig_1.passport.authenticate("google",
 }), (req, res) => {
     const User = req.user;
     const { state } = req.query;
-    console.log(state);
     if (User) {
         const token = authController.tokenAuth(User);
         authController.verifyToken(token);
-        return res.redirect("app/" + state + "?token=" + token);
+        return res.redirect(state + "?token=" + token);
     }
     else {
         return response_1.default.badRequest(res, "Error en la autenticación");

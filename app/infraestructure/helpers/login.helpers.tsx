@@ -6,8 +6,10 @@ import * as Linking from "expo-linking";
 const MetodLogin = () => {
   const [token, setToken] = useState("");
   const redirectToGoogle = () => {
-    const appUrl = Linking.createURL(""); // Crea la URL de tu app
-    Linking.openURL("http://192.168.0.7:3000/app?url=" + appUrl);
+    const appUrl = Linking.createURL("");
+    Linking.openURL(
+      "https://munaykiv3.vercel.app/auth/google/?appurl=" + appUrl,
+    );
   };
 
   const redirectToFacebook = () => {
