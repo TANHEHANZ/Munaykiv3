@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src", 
+    "baseUrl": "./src",
     "paths": {
       "@routes/*": ["modules/inventary/routes/*"],
       "@controller/*": ["../controller/productos/*"],
@@ -14,8 +14,9 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "outDir": "./dist" 
   },
-  "include": ["./**/*"], 
-  "exclude": ["node_modules", "dist"]  
+  "include": ["src/**/*"], 
+  "exclude": ["node_modules", "dist"] 
 }

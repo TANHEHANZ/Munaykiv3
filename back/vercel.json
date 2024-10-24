@@ -1,8 +1,8 @@
 {
-  "version": 1,
+  "version": 2,
   "builds": [
     {
-      "src": "./server.ts",
+      "src": "dist/index.js",
       "use": "@vercel/node"
     }
   ],
