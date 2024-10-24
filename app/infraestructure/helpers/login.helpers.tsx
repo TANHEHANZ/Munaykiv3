@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ButtonPrimary from "../../components/ui/buttons/primary";
 import BottonSecundary from "../../components/ui/buttons/secudary";
 import * as Linking from "expo-linking";
+import { router } from "expo-router";
 const MetodLogin = () => {
   const [token, setToken] = useState("");
   const redirectToGoogle = () => {
@@ -20,16 +21,24 @@ const MetodLogin = () => {
     const { url } = result;
     if (url) {
       const params = Linking.parse(url);
-      const iduser = params.queryParams;
-      console.log("User ID (Token):", iduser);
+      const paramToken = params.queryParams?.token;
+      if (paramToken) {
+        setToken(paramToken as string);
+      }
     }
   };
+
   useEffect(() => {
     const subscription = Linking.addEventListener("url", getUserData);
     return () => {
       subscription.remove();
     };
   }, []);
+  useEffect(() => {
+    if (token) {
+      router.replace("./public");
+    }
+  }, [token]);
 
   return (
     <View className="flex flex-col w-full h-1/2 justify-center">
